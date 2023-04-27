@@ -1,0 +1,16 @@
+{
+  "root": true,
+  "extends": [],
+  "parserOptions": { "project": ["./tsconfig.json"] },
+  "plugins": [],
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": [
+      2,
+      {
+        "allowString": false,
+        "allowNumber": false
+      }
+    ]
+  },
+  "ignorePatterns": ["src/**/*.test.ts"]
+}
