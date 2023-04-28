@@ -30,10 +30,11 @@ export class GenericService<T extends BaseEntity> {
     return entity;
   }
 
-  public async createAsync(entity: T): Promise<InsertResult> {
-    let model = await this._dbSet.insert(entity as QueryDeepPartialEntity<T>);
+  public async createAsync(entity: T): Promise<T | null> {
+    let model = this._dbSet.create(entity);
+    let res = await this._dbSet.save(model);
 
-    if (model == null)
+    if (res == null)
       throw new EntityCreatingError();
 
     return model;

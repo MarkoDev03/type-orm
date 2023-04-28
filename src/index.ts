@@ -18,7 +18,7 @@ import { ServerModes } from "./common/enums";
 import { bootstrap } from "global-agent";
 import events from "events";
 import { DatabaseStore } from "./core/db-store";
-import "express-async-errors";
+//import "express-async-errors";
 
 const startServer = () => {
   Logger.warn(Constants.StaringUp);

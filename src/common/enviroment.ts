@@ -16,5 +16,6 @@ export const Enviroment: IEnvVars = {
   HTTP_PROXY: process.env.HTTP_PROXY,
   HTTPS_PROXY: process.env.HTTPS_PROXY,
   NO_PROXY: process.env.NO_PROXY,
-  SERVER_MODE: Number(process.env.SERVER_MODE) as ServerModes
+  SERVER_MODE: Number(process.env.SERVER_MODE) as ServerModes,
+  SALT: Number(process.env.SALT)
 };

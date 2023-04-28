@@ -8,4 +8,5 @@ export const Constants = {
   FailedToDBStoreInitialized: "Failed to initialize database store",
   FailedToCreateEntity: "Failed to create entity",
   UpdateFailed: "Entity update failed",
+  EntityNotFound: "Entity not found",
 }

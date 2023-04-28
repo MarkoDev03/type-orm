@@ -13,4 +13,5 @@ export interface IEnvVars {
   HTTPS_PROXY: string;
   NO_PROXY: string;
   SERVER_MODE: ServerModes;
+  SALT: number;
 }
