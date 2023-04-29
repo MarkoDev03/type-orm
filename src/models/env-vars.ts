@@ -14,4 +14,6 @@ export interface IEnvVars {
   NO_PROXY: string;
   SERVER_MODE: ServerModes;
   SALT: number;
+  MAX_REQUEST: number;
+  WINDOW_MINUTES: number;
 }

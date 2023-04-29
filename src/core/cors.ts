@@ -1,5 +1,5 @@
 import { CorsOptions } from "cors";
-import { Enviroment } from "../common/enviroment";
+import { Enviroment } from "../configuration/enviroment";
 import { HttpError } from "../errors/http-error";
 import { Constants } from "../common/constants";
 import { StatusCodes } from "http-status-codes";

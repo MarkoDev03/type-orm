@@ -9,4 +9,17 @@ export const Constants = {
   FailedToCreateEntity: "Failed to create entity",
   UpdateFailed: "Entity update failed",
   EntityNotFound: "Entity not found",
+  InvalidRequest: "Invalid request",
+  IvalidDataType: "Invalid data type",
+  RequiredField: "Required field",
+  StartedTask: "Started executing bacground task...",
+  TaskScheduled: "Task scheduled",
+  InvalidExp: "Invalid cron expression",
+  InvalidMail: "Invalid email: ",
+  MailSentTo: "Mail sent to: ",
+  UsernameTaken: "Username is already taken",
+  EmailTaken: "Email is already taken",
+  AccountCreated: "Account created",
+  AccountVerified: "Account verified",
+  ServerIsOverloaded: "Server is overloaded"
 }

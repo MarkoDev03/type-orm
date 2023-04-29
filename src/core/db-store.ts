@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm"
-import { Enviroment } from "../common/enviroment";
+import { Enviroment } from "../configuration/enviroment";
 import Logger from "./logger";
 import { Constants } from "../common/constants";
 

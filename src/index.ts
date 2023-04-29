@@ -6,7 +6,7 @@ import methodOverride from "method-override";
 import compression from "compression";
 import hsts from "hsts";
 import bodyParser from "body-parser";
-import { Enviroment } from "./common/enviroment";
+import { Enviroment } from "./configuration/enviroment";
 import Logger from "./core/logger";
 import { routes } from "./middleware";
 import { errorHandler } from "./middleware/handlers/error-handler";
@@ -18,7 +18,10 @@ import { ServerModes } from "./common/enums";
 import { bootstrap } from "global-agent";
 import events from "events";
 import { DatabaseStore } from "./core/db-store";
-//import "express-async-errors";
+import limiter from "./core/rate-limiter";
+import { trafficManagement } from "./core/traffic-management";
+import "express-async-errors";
+import { FileSystem } from "./utils/file-system";
 
 const startServer = () => {
   Logger.warn(Constants.StaringUp);
@@ -32,10 +35,12 @@ const startServer = () => {
   app.use(methodOverride());
   app.use(helmet());
   app.use(cors(corsFilter));
+  app.use(limiter)
   app.use(compression());
   app.use(hsts());
-  app.use("/api", routes);
   app.use(httpLogger);
+  app.use(trafficManagement)
+  app.use("/api", routes);
   app.use(notFoundHanlder);
   app.use(errorHandler);
 
@@ -44,6 +49,7 @@ const startServer = () => {
   events.setMaxListeners(Infinity);
 
   DatabaseStore.init();
+  FileSystem.init();
 
   process.on("unhandledRejection", (error) => Logger.error(error));
 

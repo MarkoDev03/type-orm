@@ -1,4 +1,4 @@
-import { DataSource, EntityTarget, FindOptionsWhere, InsertResult, Repository, UpdateResult } from "typeorm";
+import { DataSource, EntityTarget, FindOptionsWhere, Repository, UpdateResult } from "typeorm";
 import { DatabaseStore } from "../core/db-store";
 import { EntityCreatingError, EntityUpdateError } from "../errors/db-errors";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
