@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import mailValidator from "email-validator";
-import { InvalidArgumentError } from "../errors/server-errors";
+import { ServiceUnavailable, InvalidArgumentError } from "../errors/server-errors";
 import { Constants } from "../common/constants";
 import { MailServerService } from "../services/mail-server-service";
 import { SettingsService } from "../services/settings-service";
@@ -13,6 +13,13 @@ const _settingsService = new SettingsService();
 
 export class MailSender {
   public static async sendAsync(message: string, title: string, recipients: string[]): Promise<void> {
+
+    const isAvailable = await _settingsService.getByKeyAsync<boolean>(SettingKeys.MailServerEnabled);
+
+    if (!isAvailable) {
+      throw new ServiceUnavailable();
+    }
+
     recipients.forEach((email) => {
       let isValid = mailValidator.validate(email);
 

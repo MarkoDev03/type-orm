@@ -21,5 +21,8 @@ export const Constants = {
   EmailTaken: "Email is already taken",
   AccountCreated: "Account created",
   AccountVerified: "Account verified",
-  ServerIsOverloaded: "Server is overloaded"
+  ServerIsOverloaded: "Server is overloaded",
+  EntityCreated: "Entity created successfully",
+  ServerIsTaken: "Server is taken",
+  ServiceUnavailable: "Service unavailable"
 }

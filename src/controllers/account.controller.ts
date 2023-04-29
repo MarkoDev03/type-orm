@@ -11,9 +11,12 @@ import { CronJob } from "../utils/cron-job";
 import { UserTokenService } from "../services/user-token-service";
 import uuid from "uuid";
 import { UserToken } from "../models/entities/user-token";
+import { SettingsService } from "../services/settings-service";
+import { SettingKeys } from "../configuration/setting-keys";
 
 const _userService = new UserService();
 const _userTokenService = new UserTokenService();
+const _settingsService = new SettingsService();
 
 export class AccountController {
 
@@ -43,7 +46,9 @@ export class AccountController {
 
       const token = uuid.v4();
       const currentTime = new Date();
-      const expireTime = new Date(currentTime.setHours(currentTime.getHours() + 2));
+
+      const tokenExpTime = await _settingsService.getByKeyAsync<number>(SettingKeys.AuthValidationTokenExpTime);
+      const expireTime = new Date(currentTime.setHours(currentTime.getHours() + tokenExpTime));
 
       await _userTokenService.createAsync({
         token: token,
@@ -51,7 +56,8 @@ export class AccountController {
         userId: model.id
       } as UserToken);
 
-      CronJob.executeNow(MailSender.sendAsync(token, Constants.AccountCreated, [entity.email]));
+      let task = MailSender.sendAsync(token, Constants.AccountCreated, [entity.email]);
+      CronJob.executeNow(task);
 
       CronJob.schedule(expireTime, async () => {
         const userToken = await _userTokenService.getByTokenAsync(token);

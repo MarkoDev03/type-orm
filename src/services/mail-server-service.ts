@@ -15,4 +15,16 @@ export class MailServerService extends GenericService<MailServer> {
 
     return mailServer;
   }
+
+  public async isServerTaken(senderEmail: string, host: string, port: number): Promise<boolean> {
+    const mailServer = await this._dbSet.findOne({
+      where: {
+        senderMail: senderEmail,
+        host: host,
+        port: port
+      }
+    });
+
+    return mailServer != null;
+  }
 }
