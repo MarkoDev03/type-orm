@@ -42,7 +42,6 @@ routes.route("/create")
         .withMessage(Constants.RequiredField)
         .notEmpty()
         .withMessage(Constants.IvalidDataType),
-
     ],
     validateRequest,
     controller.create

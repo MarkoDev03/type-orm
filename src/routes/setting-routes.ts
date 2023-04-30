@@ -30,20 +30,48 @@ routes.route("/create")
     controller.create
   );
 
-routes.route("/get-all")
-  .get(controller.getAll);
-
-routes.route("/:id")
-  .get(
+routes.route("/update")
+  .put(
     [
-      param("id")
+      body("id")
+        .notEmpty()
+        .withMessage(Constants.RequiredField)
+        .isNumeric()
+        .withMessage(Constants.IvalidDataType),
+      body("key")
+        .notEmpty()
+        .withMessage(Constants.RequiredField)
+        .isString()
+        .withMessage(Constants.IvalidDataType),
+      body("value")
+        .notEmpty()
+        .withMessage(Constants.RequiredField)
+        .isString()
+        .withMessage(Constants.IvalidDataType),
+      body("description")
         .notEmpty()
         .withMessage(Constants.RequiredField)
         .isString()
         .withMessage(Constants.IvalidDataType),
     ],
     validateRequest,
-    controller.getAll
+    controller.update
+  );
+
+routes.route("/get-all")
+  .get(controller.getAll);
+
+routes.route("/:settingId")
+  .get(
+    [
+      param("settingId")
+        .notEmpty()
+        .withMessage(Constants.RequiredField)
+        .isString()
+        .withMessage(Constants.IvalidDataType),
+    ],
+    validateRequest,
+    controller.get
   );
 
 export default routes;

@@ -6,13 +6,23 @@ export class SettingsService extends GenericService<Settings> {
     super(Settings);
   }
 
-  public async getByKeyAsync<T>(key: string): Promise<T> {
+  public async getByKeyAsync<T>(key: string): Promise<T | null> {
     const setting = await this._dbSet.findOne({
       where: {
         key: key
       }
     });
 
-    return setting.value as T;
+    return (setting?.value ?? null) as T;
+  }
+
+  public async getSettingByKeyAsync(key: string): Promise<Settings | null> {
+    const setting = await this._dbSet.findOne({
+      where: {
+        key: key
+      }
+    });
+
+    return setting;
   }
 }

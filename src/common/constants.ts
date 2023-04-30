@@ -24,5 +24,7 @@ export const Constants = {
   ServerIsOverloaded: "Server is overloaded",
   EntityCreated: "Entity created successfully",
   ServerIsTaken: "Server is taken",
-  ServiceUnavailable: "Service unavailable"
+  ServiceUnavailable: "Service unavailable",
+  EntityAlreadyExist: "Entity already exist",
+  EntityUpdated: "Entity update successfully"
 }
