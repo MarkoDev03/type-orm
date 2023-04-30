@@ -5,7 +5,7 @@ import { Constants } from "../common/constants";
 import { StatusCodes } from "http-status-codes";
 
 export const trafficManagement = (req: Request, res: Response, next: NextFunction): void => {
-   if (toobusy) {
+   if (toobusy()) {
       throw new HttpError(Constants.ServerIsOverloaded, StatusCodes.SERVICE_UNAVAILABLE)
    }
 
