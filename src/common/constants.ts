@@ -13,7 +13,7 @@ export const Constants = {
   IvalidDataType: "Invalid data type",
   RequiredField: "Required field",
   StartedTask: "Started executing bacground task...",
-  TaskScheduled: "Task scheduled",
+  TaskScheduled: "Task scheduled. Task name: ",
   InvalidExp: "Invalid cron expression",
   InvalidMail: "Invalid email: ",
   MailSentTo: "Mail sent to: ",
@@ -26,5 +26,7 @@ export const Constants = {
   ServerIsTaken: "Server is taken",
   ServiceUnavailable: "Service unavailable",
   EntityAlreadyExist: "Entity already exist",
-  EntityUpdated: "Entity update successfully"
+  EntityUpdated: "Entity update successfully",
+  PreparingToSendMailTo: "Perparing to send mail to: ",
+  TaskExecuted: "Task executed successfully. Task name: "
 }

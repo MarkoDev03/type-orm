@@ -13,6 +13,7 @@ const _settingsService = new SettingsService();
 
 export class MailSender {
   public static async sendAsync(message: string, title: string, recipients: string[]): Promise<void> {
+    Logger.warn(Constants.PreparingToSendMailTo + recipients.join(", "));
 
     const isAvailable = await _settingsService.getByKeyAsync<boolean>(SettingKeys.MailServerEnabled);
 

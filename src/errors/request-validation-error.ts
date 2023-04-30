@@ -5,30 +5,29 @@ import { IErrorModel } from "../models/error-model";
 import { ValidationError } from "express-validator";
 
 export class RequestValidationError extends CustomError {
-  status = StatusCodes.BAD_REQUEST;
+  statusCode = StatusCodes.BAD_REQUEST;
 
-  constructor(public errors?: Partial<ValidationError>[]) {
+  constructor(public errors?: ValidationError[]) {
     super(Constants.InvalidRequest);
 
     Object.setPrototypeOf(this, RequestValidationError.prototype);
 
     if (!this.errors) {
-      this.errors = [
-        {
-          msg: "",
-          nestedErrors: [],
-          location: undefined,
-          value: undefined,
-        },
-      ];
+      this.errors = new Array<ValidationError>();
     }
   }
 
-  serializeError(): Partial<IErrorModel>[] {
-    return this.errors.map((err) => {
-      const customError = { message: err.msg };
+   serializeErrors(): Partial<IErrorModel>[] {
+    return this.errors.map((err: any) => {
+      const customError = { 
+        message: err.msg, 
+        name: RequestValidationError.name, 
+        statusCode: StatusCodes.BAD_REQUEST, 
+        field: err?.path ?? "",
+        location: err?.location ?? ""
+      };
 
       return customError as Partial<IErrorModel>;
-    });
+    }) as Partial<IErrorModel>[];
   }
 }

@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { CustomError } from "./custom-error";
 import { Constants } from "../common/constants";
+import { IErrorModel } from "../models/error-model";
 
 export class InvalidArgumentError extends CustomError {
    statusCode = StatusCodes.BAD_REQUEST;
@@ -10,6 +11,14 @@ export class InvalidArgumentError extends CustomError {
 
       Object.setPrototypeOf(this, InvalidArgumentError.prototype);
    }
+
+   serializeErrors(): IErrorModel[] {
+      return [{ 
+         message: this.message, 
+         statusCode: this.statusCode, 
+         name: InvalidArgumentError.name 
+      }];
+    }
 }
 
 export class ServiceUnavailable extends CustomError {
@@ -20,4 +29,12 @@ export class ServiceUnavailable extends CustomError {
 
       Object.setPrototypeOf(this, InvalidArgumentError.prototype);
    }
+
+   serializeErrors(): IErrorModel[] {
+      return [{ 
+         message: this.message, 
+         statusCode: this.statusCode, 
+         name: ServiceUnavailable.name 
+      }];
+    }
 }

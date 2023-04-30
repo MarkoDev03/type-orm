@@ -2,7 +2,7 @@ import scheduler from "node-cron";
 import Logger from "../core/logger";
 import { Constants } from "../common/constants";
 import { InvalidArgumentError } from "../errors/server-errors";
-import uuid from "uuid";
+import { v4 } from "uuid";
 
 export class CronJob {
 
@@ -19,35 +19,41 @@ export class CronJob {
   }
 
   public static executeNow(task: any): void {
-    Logger.warn(Constants.TaskScheduled);
+    let taskId =  v4();
+
+    Logger.warn(Constants.TaskScheduled + taskId);
 
     const bgTask = scheduler.schedule("* * * * * * ", async () => await task(), {
       scheduled: false,
       recoverMissedExecutions: true,
       timezone: "UTC",
-      name: task.name + uuid.v4()
+      name: taskId
     });
 
-    Logger.info(Constants.StartedTask);
+    Logger.warn(Constants.StartedTask);
 
     bgTask.start();
+
+    Logger.info(Constants.TaskExecuted + taskId);
   }
 
   public static schedule(cronExp: string | Date, task: any): void {
 
+    let taskId = v4();
+    
     const cronTime = typeof(cronExp) == "string" ? cronExp : this.DateToCron(cronExp);
 
     if (!scheduler.validate(cronTime)) {
       throw new InvalidArgumentError(Constants.InvalidExp);
     }
 
-    Logger.warn(Constants.TaskScheduled);
+    Logger.warn(Constants.TaskScheduled + taskId + " for " + cronExp);
 
     scheduler.schedule(cronTime, async () => await task(), {
       scheduled: true,
       recoverMissedExecutions: true,
       timezone: "UTC",
-      name: task.name + uuid.v4()
+      name: taskId
     });
   }
 

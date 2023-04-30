@@ -9,7 +9,7 @@ import bcrpyt from "bcrypt";
 import { MailSender } from "../utils/mail-sender";
 import { CronJob } from "../utils/cron-job";
 import { UserTokenService } from "../services/user-token-service";
-import uuid from "uuid";
+import { v4 } from "uuid";
 import { UserToken } from "../models/entities/user-token";
 import { SettingsService } from "../services/settings-service";
 import { SettingKeys } from "../configuration/setting-keys";
@@ -44,7 +44,7 @@ export class AccountController {
 
       const model = await _userService.createAsync(entity);
 
-      const token = uuid.v4();
+      const token = v4();
       const currentTime = new Date();
 
       const tokenExpTime = await _settingsService.getByKeyAsync<number>(SettingKeys.AuthValidationTokenExpTime);
