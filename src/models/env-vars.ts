@@ -16,4 +16,9 @@ export interface IEnvVars {
   SALT: number;
   MAX_REQUEST: number;
   WINDOW_MINUTES: number;
+  JWT_KEY: string;
+  JWT_ISSUER: string;
+  JWT_AUDIENCE: string;
+  JWT_ALGORITHMS: string[];
+  AUTH_SCHEMA: string;
 }

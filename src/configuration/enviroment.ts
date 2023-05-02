@@ -11,7 +11,7 @@ export const Enviroment: IEnvVars = {
   DB_HOST: process.env.DB_HOST,
   DB_PORT: Number(process.env.DB_PORT),
   DB_ENABLE_QUERY_LOGGING: Number(process.env.DB_ENABLE_QUERY_LOGGING) == 1,
-  
+
   PORT: Number(process.env.PORT),
 
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS.split(","),
@@ -25,5 +25,11 @@ export const Enviroment: IEnvVars = {
   SALT: Number(process.env.SALT),
 
   MAX_REQUEST: Number(process.env.MAX_REQUEST),
-  WINDOW_MINUTES: Number(process.env.WINDOW_MINUTES)
+  WINDOW_MINUTES: Number(process.env.WINDOW_MINUTES),
+
+  JWT_KEY: process.env.JWT_KEY,
+  JWT_ISSUER: process.env.JWT_ISSUER,
+  JWT_AUDIENCE: process.env.JWT_AUDIENCE,
+  JWT_ALGORITHMS: process.env.JWT_ALGORITHMS.split(','),
+  AUTH_SCHEMA: process.env.AUTH_SCHEMA
 };

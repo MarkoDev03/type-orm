@@ -28,5 +28,7 @@ export const Constants = {
   EntityAlreadyExist: "Entity already exist",
   EntityUpdated: "Entity update successfully",
   PreparingToSendMailTo: "Perparing to send mail to: ",
-  TaskExecuted: "Task executed successfully. Task name: "
+  TaskExecuted: "Task executed successfully. Task name: ",
+  Unauthorized: "Unauthorized!",
+  AuthenticatedUser: "Authenticated user with id: "
 }

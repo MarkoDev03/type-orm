@@ -3,6 +3,9 @@ import { AccountController } from "../controllers/account.controller";
 import { param, body } from "express-validator";
 import { Constants } from "../common/constants";
 import { validateRequest } from "../middleware/handlers/request-validator";
+import passport from "passport";
+import { Enviroment } from "../configuration/enviroment";
+import { authOptions } from "../core/passport";
 
 const routes = Router();
 const controller = new AccountController();
@@ -44,6 +47,7 @@ routes.route("/create")
 
 routes.route("/info/:id")
        .get(
+              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
               [
                      param("id")
                             .isNumeric()

@@ -20,8 +20,10 @@ import events from "events";
 import { DatabaseStore } from "./core/db-store";
 import limiter from "./core/rate-limiter";
 import { trafficManagement } from "./core/traffic-management";
-import "express-async-errors";
 import { FileSystem } from "./utils/file-system";
+import passport from "passport";
+import { jwtStrategy } from "./core/passport";
+import "express-async-errors";
 
 const startServer = () => {
   Logger.warn(Constants.StaringUp);
@@ -39,10 +41,12 @@ const startServer = () => {
   app.use(compression());
   app.use(hsts());
   app.use(httpLogger);
-  app.use(trafficManagement)
+  app.use(trafficManagement);
+  app.use(passport.initialize());
   app.use("/api", routes);
   app.use(notFoundHanlder);
   app.use(errorHandler);
+  passport.use(jwtStrategy);
 
   app.setMaxListeners(Infinity);
   server.setMaxListeners(Infinity);

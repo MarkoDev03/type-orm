@@ -13,6 +13,7 @@ import { v4 } from "uuid";
 import { UserToken } from "../models/entities/user-token";
 import { SettingsService } from "../services/settings-service";
 import { SettingKeys } from "../configuration/setting-keys";
+import { IAuthUser } from "../models/auth-user";
 
 const _userService = new UserService();
 const _userTokenService = new UserTokenService();
@@ -75,8 +76,8 @@ export class AccountController {
 
   async info(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = Number(req.params.id);
-      const entity = await _userService.getByIdAsync(id);
+      const { userId } = req.user as IAuthUser;
+      const entity = await _userService.getByIdAsync(userId);
 
       if (!entity)
         throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
