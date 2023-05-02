@@ -1,3 +1,4 @@
+import "express-async-errors";
 import http from "http";
 import express from "express";
 import cors from "cors";
@@ -23,7 +24,6 @@ import { trafficManagement } from "./core/traffic-management";
 import { FileSystem } from "./utils/file-system";
 import passport from "passport";
 import { jwtStrategy } from "./core/passport";
-import "express-async-errors";
 
 const startServer = () => {
   Logger.warn(Constants.StaringUp);
@@ -55,7 +55,7 @@ const startServer = () => {
   DatabaseStore.init();
   FileSystem.init();
 
-  process.on("unhandledRejection", (error) => Logger.error(error));
+  //process.on("unhandledRejection", (error) => Logger.error(error));
 
   if (Enviroment.SERVER_MODE == ServerModes.Production) {
     bootstrap();
