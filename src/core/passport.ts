@@ -14,6 +14,10 @@ let options: StrategyOptions = {
   issuer: Enviroment.JWT_ISSUER,
   audience: Enviroment.JWT_AUDIENCE,
   algorithms: Enviroment.JWT_ALGORITHMS,
+  jsonWebTokenOptions: {
+    allowInvalidAsymmetricKeyTypes: false,
+    ignoreNotBefore: false
+  }
 };
 
 const verifyToken = async (payload: any, callback: VerifiedCallback) => {
