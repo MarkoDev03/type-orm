@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AccountController } from "../controllers/account.controller";
-import { param, body } from "express-validator";
+import { param, body, header } from "express-validator";
 import { Constants } from "../common/constants";
 import { validateRequest } from "../middleware/handlers/request-validator";
 import passport from "passport";
@@ -45,16 +45,9 @@ routes.route("/create")
               controller.create
        );
 
-routes.route("/info/:id")
+routes.route("/info")
        .get(
               [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
-              [
-                     param("id")
-                            .isNumeric()
-                            .withMessage(Constants.IvalidDataType)
-                            .isInt()
-                            .withMessage(Constants.IvalidDataType)
-              ],
               validateRequest,
               controller.info
        );

@@ -21,4 +21,6 @@ export interface IEnvVars {
   JWT_AUDIENCE: string;
   JWT_ALGORITHMS: string[];
   AUTH_SCHEMA: string;
+  AUTH_SESSION_EXP_TIME: string;
+  AUTH_REFRESH_SESSION_EXP_TIME: string;
 }

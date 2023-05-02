@@ -13,7 +13,6 @@ let options: StrategyOptions = {
   ignoreExpiration: false,
   issuer: Enviroment.JWT_ISSUER,
   audience: Enviroment.JWT_AUDIENCE,
-  algorithms: Enviroment.JWT_ALGORITHMS,
   jsonWebTokenOptions: {
     allowInvalidAsymmetricKeyTypes: false,
     ignoreNotBefore: false

@@ -46,7 +46,8 @@ const startServer = () => {
   app.use("/api", routes);
   app.use(notFoundHanlder);
   app.use(errorHandler);
-  passport.use(jwtStrategy);
+
+  passport.use(Enviroment.AUTH_SCHEMA, jwtStrategy);
 
   app.setMaxListeners(Infinity);
   server.setMaxListeners(Infinity);
@@ -55,7 +56,7 @@ const startServer = () => {
   DatabaseStore.init();
   FileSystem.init();
 
-  //process.on("unhandledRejection", (error) => Logger.error(error));
+  process.on("unhandledRejection", (error) => Logger.error(error));
 
   if (Enviroment.SERVER_MODE == ServerModes.Production) {
     bootstrap();

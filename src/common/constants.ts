@@ -30,5 +30,7 @@ export const Constants = {
   PreparingToSendMailTo: "Perparing to send mail to: ",
   TaskExecuted: "Task executed successfully. Task name: ",
   Unauthorized: "Unauthorized!",
-  AuthenticatedUser: "Authenticated user with id: "
+  AuthenticatedUser: "Authenticated user with id: ",
+  AlreadyVerified: "Your account have been already verified",
+  WrongPassword: "Wrong password"
 }

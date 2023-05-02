@@ -1,5 +1,6 @@
 import { User } from "../models/entities/user";
 import { GenericService } from "./generic-service";
+import bcrypt from "bcrypt";
 
 export class UserService extends GenericService<User> {
   constructor() {
@@ -24,5 +25,15 @@ export class UserService extends GenericService<User> {
     });
 
     return entity !== null;
+  }
+
+  public async getByUsernameAsync(username: string): Promise<User | null> {
+    const user = await this._dbSet.findOne({
+      where: {
+        username: username
+      }
+    });
+
+    return user;
   }
 }

@@ -31,5 +31,7 @@ export const Enviroment: IEnvVars = {
   JWT_ISSUER: process.env.JWT_ISSUER,
   JWT_AUDIENCE: process.env.JWT_AUDIENCE,
   JWT_ALGORITHMS: process.env.JWT_ALGORITHMS.split(','),
-  AUTH_SCHEMA: process.env.AUTH_SCHEMA
+  AUTH_SCHEMA: process.env.AUTH_SCHEMA,
+  AUTH_SESSION_EXP_TIME: process.env.AUTH_SESSION_EXP_TIME,
+  AUTH_REFRESH_SESSION_EXP_TIME: process.env.AUTH_REFRESH_SESSION_EXP_TIME,
 };

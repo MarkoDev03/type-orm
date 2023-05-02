@@ -37,6 +37,7 @@ export class AccountController {
     }
 
     entity.timeCreated = new Date();
+    entity.isVerified = false;
 
     const salt = await bcrpyt.genSalt(Enviroment.SALT);
     const hashedPassword = await bcrpyt.hash(entity.password, salt);
@@ -67,15 +68,22 @@ export class AccountController {
       }
     });
 
-    res.status(StatusCodes.OK).json({ message: Constants.AccountCreated });
+    res.status(StatusCodes.OK).json({
+      message: Constants.AccountCreated,
+      token: token,
+      userId: model.id
+    });
   }
 
   async info(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { userId } = req.user as IAuthUser;
     const entity = await _userService.getByIdAsync(userId);
 
-    if (!entity)
+    if (!entity) {
       throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    delete entity.password;
 
     res.status(StatusCodes.OK).json(entity);
   }
@@ -84,7 +92,16 @@ export class AccountController {
     const token = req.params.token;
 
     const userToken = await _userTokenService.getByTokenAsync(token);
+
+    if (!userToken) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
     const user = await _userService.getByIdAsync(userToken.userId);
+
+    if (user.isVerified == true) {
+      throw new HttpError(Constants.AlreadyVerified, StatusCodes.BAD_REQUEST);
+    }
 
     user.isVerified = true;
 
