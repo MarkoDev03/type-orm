@@ -38,3 +38,21 @@ export class EntityUpdateError extends CustomError {
     }];
   }
 }
+
+export class EntityDeleteError extends CustomError {
+  constructor() {
+    super(Constants.DeleteFailed);
+
+    this.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+
+    Object.setPrototypeOf(this, EntityDeleteError.prototype);
+  }
+
+  serializeErrors(): IErrorModel[] {
+    return [{ 
+      message: this.message, 
+      statusCode: this.statusCode, 
+      name: EntityUpdateError.name 
+    }];
+  }
+}

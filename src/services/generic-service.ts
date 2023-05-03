@@ -1,6 +1,6 @@
 import { DataSource, EntityTarget, FindOptionsWhere, Repository, UpdateResult } from "typeorm";
 import { DatabaseStore } from "../core/db-store";
-import { EntityCreatingError, EntityUpdateError } from "../errors/db-errors";
+import { EntityCreatingError, EntityDeleteError, EntityUpdateError } from "../errors/db-errors";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { BaseEntity } from "../models/base-entity";
 
@@ -34,24 +34,27 @@ export class GenericService<T extends BaseEntity> {
     let model = this._dbSet.create(entity);
     let res = await this._dbSet.save(model);
 
-    if (res == null)
+    if (res == null) {
       throw new EntityCreatingError();
+    }
 
     return model;
   }
 
-  public async updateAsync(entity: T): Promise<UpdateResult> {
+  public async updateAsync(entity: T): Promise<void> {
     let model = await this._dbSet.update(entity.id, entity as QueryDeepPartialEntity<T>);
 
-    if (model.affected == 0)
+    if (model.affected == 0) {
       throw new EntityUpdateError();
-
-    return model;
+    }
   }
 
-  public async deleteAsync(id: number): Promise<boolean> {
+  public async deleteAsync(id: number): Promise<void> {
     let model = await this._dbSet.delete(id);
-    return model.affected > 0;
+
+    if (model.affected == 0) {
+      throw new EntityDeleteError();
+    }
   }
 
   public async entityExistAsync(id: number): Promise<boolean> {

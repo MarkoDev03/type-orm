@@ -4,7 +4,7 @@ import { HttpError } from "../errors/http-error";
 import { Constants } from "../common/constants";
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
-import { Identity } from "../helpers/identity-helper";
+import { Identity } from "../utils/identity-helper";
 import { SettingsService } from "../services/settings-service";
 import { SettingKeys } from "../configuration/setting-keys";
 import { Enviroment } from "../configuration/enviroment";

@@ -10,6 +10,12 @@ import { authOptions } from "../core/passport";
 const routes = Router();
 const controller = new AccountController();
 
+routes.route("/info")
+       .get(
+              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              controller.info
+       );
+
 routes.route("/create")
        .post(
               [
@@ -39,17 +45,9 @@ routes.route("/create")
                             .withMessage(Constants.RequiredField)
                             .isString()
                             .withMessage(Constants.IvalidDataType),
-
               ],
               validateRequest,
               controller.create
-       );
-
-routes.route("/info")
-       .get(
-              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
-              validateRequest,
-              controller.info
        );
 
 routes.route("/verify/:token")
@@ -63,6 +61,60 @@ routes.route("/verify/:token")
               ],
               validateRequest,
               controller.verifyAccount
+       );
+
+routes.route("/change-password")
+       .put(
+              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [
+                     param("oldPassword")
+                            .isString()
+                            .withMessage(Constants.IvalidDataType)
+                            .notEmpty()
+                            .withMessage(Constants.IvalidDataType),
+                     param("newPassword")
+                            .isString()
+                            .withMessage(Constants.IvalidDataType)
+                            .notEmpty()
+                            .withMessage(Constants.IvalidDataType)
+              ],
+              validateRequest,
+              controller.changePassword
+       );
+
+routes.route("/update")
+       .put(
+              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [
+                     body("email")
+                            .isEmail()
+                            .withMessage(Constants.IvalidDataType)
+                            .notEmpty()
+                            .withMessage(Constants.RequiredField)
+                            .isString()
+                            .withMessage(Constants.IvalidDataType),
+                     body("phone")
+                            .notEmpty()
+                            .withMessage(Constants.RequiredField)
+                            .isString()
+                            .withMessage(Constants.IvalidDataType),
+              ],
+              validateRequest,
+              controller.updateAccount
+       );
+
+routes.route("/delete")
+       .delete(
+              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [
+                     body("password")
+                            .isString()
+                            .withMessage(Constants.IvalidDataType)
+                            .notEmpty()
+                            .withMessage(Constants.IvalidDataType)
+              ],
+              validateRequest,
+              controller.deleteAccount
        );
 
 export default routes;

@@ -14,6 +14,7 @@ import { UserToken } from "../models/entities/user-token";
 import { SettingsService } from "../services/settings-service";
 import { SettingKeys } from "../configuration/setting-keys";
 import { IAuthUser } from "../models/auth-user";
+import Logger from "../core/logger";
 
 const _userService = new UserService();
 const _userTokenService = new UserTokenService();
@@ -109,5 +110,78 @@ export class AccountController {
     await _userTokenService.deleteAsync(userToken.id);
 
     res.status(StatusCodes.OK).json({ message: Constants.AccountVerified });
+  }
+
+  async deleteAccount(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { password } = req.body;
+    const { userId } = req.user as IAuthUser;
+
+    const user = await _userService.getByIdAsync(userId);
+
+    if (!user) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const comparePasswords = await bcrpyt.compare(password, user.password);
+
+    if (!comparePasswords) {
+      throw new HttpError(Constants.WrongPassword, StatusCodes.BAD_GATEWAY);
+    }
+
+    await _userService.deleteAsync(userId);
+
+    Logger.error(Constants.UserDeletedAccount + userId);
+
+    res.status(StatusCodes.OK).json({ message: Constants.EntityDeleted });
+  }
+
+  async updateAccount(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { userId } = req.user as IAuthUser;
+    const { email, phone } = req.body;
+
+    const user = await _userService.getByIdAsync(userId);
+
+    if (!user) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const isEmailTaken = await _userService.isEmailTakenAsync(email);
+
+    if (isEmailTaken) {
+      throw new HttpError(Constants.EmailTaken, StatusCodes.BAD_REQUEST);
+    }
+
+    user.email = email;
+    user.phone = phone;
+
+    await _userService.updateAsync(user);
+
+    res.status(StatusCodes.OK).json({ message: Constants.EntityUpdated });
+  }
+
+  async changePassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { userId } = req.user as IAuthUser;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await _userService.getByIdAsync(userId);
+
+    if (!user) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const comparePasswords = await bcrpyt.compare(oldPassword, user.password);
+
+    if (!comparePasswords) {
+      throw new HttpError(Constants.WrongPassword, StatusCodes.BAD_GATEWAY);
+    }
+
+    const salt = await bcrpyt.genSalt(Enviroment.SALT);
+    const hashedPassword = await bcrpyt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+
+    await _userService.updateAsync(user);
+
+    res.status(StatusCodes.OK).json({ message: Constants.EntityUpdated });
   }
 }

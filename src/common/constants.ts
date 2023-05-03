@@ -32,5 +32,8 @@ export const Constants = {
   Unauthorized: "Unauthorized!",
   AuthenticatedUser: "Authenticated user with id: ",
   AlreadyVerified: "Your account have been already verified",
-  WrongPassword: "Wrong password"
+  WrongPassword: "Wrong password",
+  EntityDeleted: "Entity deleted successfully",
+  UserDeletedAccount: "User deleted account with id: ",
+  DeleteFailed: "Failed to delete entity"
 }
