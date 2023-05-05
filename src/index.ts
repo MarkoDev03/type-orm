@@ -7,7 +7,7 @@ import methodOverride from "method-override";
 import compression from "compression";
 import hsts from "hsts";
 import bodyParser from "body-parser";
-import { Enviroment } from "./configuration/enviroment";
+import { Environment } from "./configuration/environment";
 import Logger from "./core/logger";
 import { routes } from "./middleware";
 import { errorHandler } from "./middleware/handlers/error-handler";
@@ -30,7 +30,7 @@ const startServer = () => {
 
   const app = express();
   const server = http.createServer(app);
-  const port = Enviroment.PORT || 5000;
+  const port = Environment.PORT || 5000;
 
   app.use(bodyParser.json());
   app.use(express.urlencoded({ extended: true }));
@@ -47,7 +47,7 @@ const startServer = () => {
   app.use(notFoundHanlder);
   app.use(errorHandler);
 
-  passport.use(Enviroment.AUTH_SCHEMA, jwtStrategy);
+  passport.use(Environment.AUTH_SCHEMA, jwtStrategy);
 
   app.setMaxListeners(Infinity);
   server.setMaxListeners(Infinity);
@@ -58,12 +58,12 @@ const startServer = () => {
 
   process.on("unhandledRejection", (error) => Logger.error(error));
 
-  if (Enviroment.SERVER_MODE == ServerModes.Production) {
+  if (Environment.SERVER_MODE == ServerModes.Production) {
     bootstrap();
 
-    global.GLOBAL_AGENT.HTTP_PROXY = Enviroment.HTTP_PROXY;
-    global.GLOBAL_AGENT.HTTPS_PROXY = Enviroment.HTTPS_PROXY;
-    global.GLOBAL_AGENT.NO_PROXY = Enviroment.NO_PROXY;
+    global.GLOBAL_AGENT.HTTP_PROXY = Environment.HTTP_PROXY;
+    global.GLOBAL_AGENT.HTTPS_PROXY = Environment.HTTPS_PROXY;
+    global.GLOBAL_AGENT.NO_PROXY = Environment.NO_PROXY;
   }
 
   server.listen(port, () => {

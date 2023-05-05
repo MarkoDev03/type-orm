@@ -4,7 +4,7 @@ import { HttpError } from "../errors/http-error";
 import { Constants } from "../common/constants";
 import { StatusCodes } from "http-status-codes";
 import { User } from "../models/entities/user";
-import { Enviroment } from "../configuration/enviroment";
+import { Environment } from "../configuration/environment";
 import bcrpyt from "bcrypt";
 import { MailSender } from "../utils/mail-sender";
 import { CronJob } from "../utils/cron-job";
@@ -40,7 +40,7 @@ export class AccountController {
     entity.timeCreated = new Date();
     entity.isVerified = false;
 
-    const salt = await bcrpyt.genSalt(Enviroment.SALT);
+    const salt = await bcrpyt.genSalt(Environment.SALT);
     const hashedPassword = await bcrpyt.hash(entity.password, salt);
     entity.password = hashedPassword;
 
@@ -175,7 +175,7 @@ export class AccountController {
       throw new HttpError(Constants.WrongPassword, StatusCodes.BAD_GATEWAY);
     }
 
-    const salt = await bcrpyt.genSalt(Enviroment.SALT);
+    const salt = await bcrpyt.genSalt(Environment.SALT);
     const hashedPassword = await bcrpyt.hash(newPassword, salt);
 
     user.password = hashedPassword;

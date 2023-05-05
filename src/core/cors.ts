@@ -1,5 +1,5 @@
 import { CorsOptions } from "cors";
-import { Enviroment } from "../configuration/enviroment";
+import { Environment } from "../configuration/environment";
 import { HttpError } from "../errors/http-error";
 import { Constants } from "../common/constants";
 import { StatusCodes } from "http-status-codes";
@@ -10,11 +10,11 @@ export const corsFilter: CorsOptions = {
       return callback(null, true);
     }
 
-    if (!Enviroment.ALLOWED_ORIGINS.includes(origin)) {
+    if (!Environment.ALLOWED_ORIGINS.includes(origin)) {
       return callback(new HttpError(Constants.BlockedByCors, StatusCodes.METHOD_NOT_ALLOWED));
     }
 
-    if (Enviroment.ALLOWED_ORIGINS.includes(origin)) {
+    if (Environment.ALLOWED_ORIGINS.includes(origin)) {
       return callback(null, true);
     }
   },

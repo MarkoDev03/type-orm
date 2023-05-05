@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import { Identity } from "../utils/identity-helper";
 import { SettingsService } from "../services/settings-service";
 import { SettingKeys } from "../configuration/setting-keys";
-import { Enviroment } from "../configuration/enviroment";
+import { Environment } from "../configuration/environment";
 import Logger from "../core/logger";
 
 const _userService = new UserService();
@@ -35,8 +35,8 @@ export class AuthController {
 
     authUser.userId = user.id;
 
-    const tokenExpTime = await _settingsService.getByKeyAsync<string>(SettingKeys.AuthSessionExpTime) ?? Enviroment.AUTH_SESSION_EXP_TIME;
-    const refreshTokenExpTime = await _settingsService.getByKeyAsync<string>(SettingKeys.AuthRefreshExpTime) ?? Enviroment.AUTH_SESSION_EXP_TIME;
+    const tokenExpTime = await _settingsService.getByKeyAsync<string>(SettingKeys.AuthSessionExpTime) ?? Environment.AUTH_SESSION_EXP_TIME;
+    const refreshTokenExpTime = await _settingsService.getByKeyAsync<string>(SettingKeys.AuthRefreshExpTime) ?? Environment.AUTH_SESSION_EXP_TIME;
 
     const accessToken = Identity.generate(authUser, tokenExpTime);
     const refreshToken = Identity.generate({ userId: authUser.id }, refreshTokenExpTime);

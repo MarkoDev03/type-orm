@@ -4,7 +4,7 @@ import { param, body, header } from "express-validator";
 import { Constants } from "../common/constants";
 import { validateRequest } from "../middleware/handlers/request-validator";
 import passport from "passport";
-import { Enviroment } from "../configuration/enviroment";
+import { Environment } from "../configuration/environment";
 import { authOptions } from "../core/passport";
 
 const routes = Router();
@@ -12,7 +12,7 @@ const controller = new AccountController();
 
 routes.route("/info")
        .get(
-              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
               controller.info
        );
 
@@ -65,7 +65,7 @@ routes.route("/verify/:token")
 
 routes.route("/change-password")
        .put(
-              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
               [
                      param("oldPassword")
                             .isString()
@@ -84,7 +84,7 @@ routes.route("/change-password")
 
 routes.route("/update")
        .put(
-              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
               [
                      body("email")
                             .isEmail()
@@ -105,7 +105,7 @@ routes.route("/update")
 
 routes.route("/delete")
        .delete(
-              [passport.authenticate(Enviroment.AUTH_SCHEMA, authOptions)],
+              [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
               [
                      body("password")
                             .isString()

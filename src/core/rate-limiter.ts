@@ -1,9 +1,9 @@
 import rateLimit from 'express-rate-limit';
-import { Enviroment } from '../configuration/enviroment';
+import { Environment } from '../configuration/environment';
 
 const limiter = rateLimit({
-	windowMs: Enviroment.WINDOW_MINUTES * 60 * 1000,
-	max: Enviroment.MAX_REQUEST,
+	windowMs: Environment.WINDOW_MINUTES * 60 * 1000,
+	max: Environment.MAX_REQUEST,
 	standardHeaders: true,
 	legacyHeaders: false,
 });

@@ -1,5 +1,5 @@
 import { ExtractJwt, Strategy, StrategyOptions, VerifiedCallback } from "passport-jwt";
-import { Enviroment } from "../configuration/enviroment";
+import { Environment } from "../configuration/environment";
 import { Unauthorized } from "../errors/auth-error";
 import { UserService } from "../services/user-service";
 import Logger from "./logger";
@@ -9,10 +9,10 @@ const _userService = new UserService();
 
 let options: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: Enviroment.JWT_KEY,
+  secretOrKey: Environment.JWT_KEY,
   ignoreExpiration: false,
-  issuer: Enviroment.JWT_ISSUER,
-  audience: Enviroment.JWT_AUDIENCE,
+  issuer: Environment.JWT_ISSUER,
+  audience: Environment.JWT_AUDIENCE,
   jsonWebTokenOptions: {
     allowInvalidAsymmetricKeyTypes: false,
     ignoreNotBefore: false

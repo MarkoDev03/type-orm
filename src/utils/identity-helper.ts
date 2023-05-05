@@ -1,11 +1,11 @@
 import jsonwebtoken, { SignOptions } from "jsonwebtoken";
-import { Enviroment } from "../configuration/enviroment";
+import { Environment } from "../configuration/environment";
 
 export class Identity {
 
   private static options: SignOptions = {
-    issuer: Enviroment.JWT_ISSUER,
-    audience: Enviroment.JWT_AUDIENCE,
+    issuer: Environment.JWT_ISSUER,
+    audience: Environment.JWT_AUDIENCE,
     allowInsecureKeySizes: false,
     allowInvalidAsymmetricKeyTypes: false,
     encoding: "utf8",
@@ -16,7 +16,7 @@ export class Identity {
     const authOptions: SignOptions = { ...this.options };
     authOptions.expiresIn = expTime;
 
-    return jsonwebtoken.sign(user, Enviroment.JWT_KEY, this.options);
+    return jsonwebtoken.sign(user, Environment.JWT_KEY, this.options);
   }
 
   public static decode<T>(token: string): T {
