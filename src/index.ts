@@ -24,6 +24,7 @@ import { trafficManagement } from "./core/traffic-management";
 import { FileSystem } from "./utils/file-system";
 import passport from "passport";
 import { jwtStrategy } from "./core/passport";
+import cookieParser from "cookie-parser";
 
 const startServer = () => {
   Logger.warn(Constants.StaringUp);
@@ -42,6 +43,7 @@ const startServer = () => {
   app.use(hsts());
   app.use(httpLogger);
   app.use(trafficManagement);
+  app.use(cookieParser());
   app.use(passport.initialize());
   app.use("/api", routes);
   app.use(notFoundHanlder);
