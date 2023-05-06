@@ -4,12 +4,27 @@ import { BaseEntity } from "../base-entity";
 
 @Entity({ name: "settings" })
 export class Settings extends BaseEntity {
-  @Column()
+  @Column({
+    name: "key",
+    length: 200,
+    nullable: false,
+    type: "nvarchar"
+  })
   key: string;
 
-  @Column()
+  @Column({
+    name: "value",
+    length: 200,
+    nullable: false,
+    type: "nvarchar"
+  })
   value: string;
 
-  @Column()
+  @Column({
+    name: "description",
+    length: 500,
+    nullable: false,
+    type: "nvarchar"
+  })
   description: string;
 }

@@ -1,15 +1,30 @@
 import { Column, Entity } from "typeorm";
 import { BaseEntity } from "../base-entity";
-
+import moment from "moment";
 
 @Entity({ name: "usertoken" })
 export class UserToken extends BaseEntity {
-  @Column()
+  @Column({
+    name: "userId",
+    nullable: false,
+    type: "int"
+  })
   userId: number;
 
-  @Column()
+  @Column({
+    name: "token",
+    length: 200,
+    unique: true,
+    nullable: false,
+    type: "nvarchar"
+  })
   token: string;
 
-  @Column()
+  @Column({
+    default:  () => 'DATE_ADD(NOW(), INTERVAL 2 HOUR)',
+    name: "expiresAt",
+    nullable: true,
+    type: "timestamp"
+  })
   expiresAt: Date;
 }

@@ -5,22 +5,51 @@ import { IsEmail } from "class-validator";
 
 @Entity({ name: "mailserver" })
 export class MailServer extends BaseEntity {
-   @Column()
+   @Column({
+      name: "host",
+      length: 200,
+      nullable: false,
+      type: "nvarchar",
+   })
    host: string;
 
-   @Column()
+   @Column({
+      name: "port",
+      nullable: false,
+      type: "int",
+   })
    port: number;
 
-   @Column()
+   @Column({
+      name: "senderMail",
+      length: 200,
+      nullable: false,
+      type: "nvarchar",
+   })
    @IsEmail()
    senderMail: string;
 
-   @Column()
+   @Column({
+      name: "senderPassword",
+      length: 200,
+      nullable: false,
+      type: "nvarchar",
+   })
    senderPassword: string;
 
-   @Column()
+   @Column({
+      name: "serviceType",
+      length: 30,
+      nullable: false,
+      type: "nvarchar",
+   })
    serviceType: string;
 
-   @Column()
+   @Column({
+      name: "enabled",
+      default: true,
+      nullable: true,
+      type: "boolean"
+   })
    enabled: boolean;
 }
