@@ -2,7 +2,6 @@ import { Column, Entity } from "typeorm";
 import { BaseEntity } from "../base-entity";
 import { IsEmail } from "class-validator";
 
-
 @Entity({ name: "mailserver" })
 export class MailServer extends BaseEntity {
    @Column({

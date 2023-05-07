@@ -1,6 +1,5 @@
 import { Column, Entity } from "typeorm";
 import { BaseEntity } from "../base-entity";
-import moment from "moment";
 
 @Entity({ name: "usertoken" })
 export class UserToken extends BaseEntity {

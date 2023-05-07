@@ -15,10 +15,14 @@ import { SettingsService } from "../services/settings-service";
 import { SettingKeys } from "../configuration/setting-keys";
 import { IAuthUser } from "../models/auth-user";
 import Logger from "../core/logger";
+import { AvatarService } from "../services/avatar-service";
+import { File } from "../utils/file-system";
+import path from "path";
 
 const _userService = new UserService();
 const _userTokenService = new UserTokenService();
 const _settingsService = new SettingsService();
+const _avatarService = new AvatarService();
 
 export class AccountController {
 
@@ -128,9 +132,23 @@ export class AccountController {
       throw new HttpError(Constants.WrongPassword, StatusCodes.BAD_GATEWAY);
     }
 
+    const avatar = await _avatarService.getByUserIdAsync(userId);
+
+    if (avatar != null) {
+      await _avatarService.deleteAsync(avatar.id);
+
+      const rootPath = path.join(path.resolve("files"), userId.toString());
+      const imgPath = path.join(rootPath, Environment.DEFAULT_IMAGE_NAME);
+
+      await File.deleteAsync(imgPath);
+    }
+
     await _userService.deleteAsync(userId);
 
     Logger.error(Constants.UserDeletedAccount + userId);
+
+    let task = MailSender.sendAsync(Constants.UserDeletedAccount, Constants.AccountCreated, [user.email]);
+    CronJob.executeNow(task);
 
     res.status(StatusCodes.OK).json({ message: Constants.EntityDeleted });
   }

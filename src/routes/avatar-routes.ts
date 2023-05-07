@@ -9,9 +9,15 @@ const router = Router();
 
 const controller = new AvatarController();
 
+const maxFileSize = Environment.MAX_FILE_SIZE_IN_MB * 1024 * 1024;
+
 router.route("/upload")
   .post(
-    multer().single("file"),
+    multer({
+      limits: {
+        fileSize: maxFileSize
+      }
+    }).single("file"),
     [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
     controller.upload
   );

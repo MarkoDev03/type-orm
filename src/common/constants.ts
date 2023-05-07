@@ -35,5 +35,8 @@ export const Constants = {
   WrongPassword: "Wrong password",
   EntityDeleted: "Entity deleted successfully",
   UserDeletedAccount: "User deleted account with id: ",
-  DeleteFailed: "Failed to delete entity"
+  DeleteFailed: "Failed to delete entity",
+  ProfileImageAdded: "Profile image uploaded successfully",
+  ProfileImagUpdated: "Profile image updated successfully",
+  FileTypeNotSupported: "File type not supported"
 }

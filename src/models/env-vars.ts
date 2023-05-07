@@ -23,4 +23,8 @@ export interface IEnvVars {
   AUTH_SCHEMA: string;
   AUTH_SESSION_EXP_TIME: string;
   AUTH_REFRESH_SESSION_EXP_TIME: string;
+  MAX_IMG_HEIGHT: number;
+  DEFAULT_IMAGE_NAME: string;
+  ALLOWED_MIME_TYPES: string[];
+  MAX_FILE_SIZE_IN_MB: number;
 }

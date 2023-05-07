@@ -1,7 +1,6 @@
 import { Column, Entity } from "typeorm";
 import { Min, IsDate } from "class-validator";
 import { BaseEntity } from "../base-entity";
-import moment from "moment";
 
 @Entity({ name: "avatar" })
 export class Avatar extends BaseEntity {
@@ -10,7 +9,7 @@ export class Avatar extends BaseEntity {
     nullable: false,
     type: "int"
   })
-  userId: string;
+  userId: number;
 
   @Column({
     name: "size",
@@ -29,12 +28,28 @@ export class Avatar extends BaseEntity {
   type: string;
 
   @Column({
+    name: "type",
+    length: 200,
+    nullable: false,
+    type: "nvarchar"
+  })
+  originalType: string;
+
+  @Column({
     name: "originalName",
     length: 250,
     nullable: false,
     type: "nvarchar"
   })
   originalName: string;
+
+  @Column({
+    name: "fileName",
+    length: 250,
+    nullable: false,
+    type: "nvarchar"
+  })
+  fileName: string;
 
   @Column({
     default: () => 'DATE_ADD(NOW(), INTERVAL 2 HOUR)',
@@ -44,4 +59,13 @@ export class Avatar extends BaseEntity {
   })
   @IsDate()
   timeUploaded: Date;
+
+  @Column({
+    default: () => 'DATE_ADD(NOW(), INTERVAL 2 HOUR)',
+    name: "timeUploaded",
+    nullable: true,
+    type: "timestamp"
+  })
+  @IsDate()
+  timeUpdated: Date;
 }

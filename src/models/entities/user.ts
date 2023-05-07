@@ -1,7 +1,6 @@
 import { IsEmail, IsPhoneNumber, IsDate } from "class-validator";
 import { Column, Entity } from "typeorm";
 import { BaseEntity } from "../base-entity";
-import moment from "moment";
 
 @Entity({ name: "user" })
 export class User extends BaseEntity {

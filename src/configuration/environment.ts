@@ -34,4 +34,9 @@ export const Environment: IEnvVars = {
   AUTH_SCHEMA: process.env.AUTH_SCHEMA,
   AUTH_SESSION_EXP_TIME: process.env.AUTH_SESSION_EXP_TIME,
   AUTH_REFRESH_SESSION_EXP_TIME: process.env.AUTH_REFRESH_SESSION_EXP_TIME,
+
+  MAX_IMG_HEIGHT: Number(process.env.MAX_IMG_HEIGHT),
+  DEFAULT_IMAGE_NAME: process.env.DEFAULT_IMAGE_NAME,
+  ALLOWED_MIME_TYPES: process.env.ALLOWED_MIME_TYPES.split(','),
+  MAX_FILE_SIZE_IN_MB: Number(process.env.MAX_FILE_SIZE_IN_MB)
 };
