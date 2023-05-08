@@ -22,4 +22,10 @@ router.route("/upload")
     controller.upload
   );
 
+router.route("/remove")
+  .delete(
+    [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
+    controller.removeProfilePhoto
+  );
+
 export default router;

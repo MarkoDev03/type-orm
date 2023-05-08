@@ -33,14 +33,19 @@ export class AvatarController {
     const rootPath = path.join(path.resolve("files"), userId.toString());
     const userDirExist = await Directory.existAsync(rootPath);
 
-    const fileBuffer = await
-      sharp(file.buffer)
-        .resize(Environment.MAX_IMG_HEIGHT)
-        .webp()
-        .toBuffer();
-
     if (!userDirExist) {
       await Directory.createAsync(rootPath);
+    }
+
+    let fileBuffer = await
+      sharp(file.buffer)
+        .resize(Environment.MAX_IMG_HEIGHT)
+        .toBuffer();
+
+    if (file.mimetype != "image/webp") {
+      fileBuffer = await sharp(fileBuffer)
+        .webp()
+        .toBuffer();
     }
 
     const imgPath = path.join(rootPath, Environment.DEFAULT_IMAGE_NAME);
@@ -75,4 +80,36 @@ export class AvatarController {
 
     res.status(200).json({ message: Constants.ProfileImagUpdated })
   }
+
+  public async removeProfilePhoto(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { userId } = req.user as IAuthUser;
+
+    const entityExist = await _userService.entityExistAsync(userId);
+
+    if (!entityExist) {
+      throw new HttpError(Constants.EndpointNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const rootPath = path.join(path.resolve("files"), userId.toString());
+    const imgPath = path.join(rootPath, Environment.DEFAULT_IMAGE_NAME);
+    const imageExist = await File.existAsync(imgPath);
+
+    if (!imageExist) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    await Directory.deleteAsync(rootPath);
+
+    const entity = await _avatarService.getByUserIdAsync(userId);
+
+    if (entity) {
+      await _avatarService.deleteAsync(entity.id);
+    }
+
+    res.status(StatusCodes.OK).json({ message: Constants.EntityDeleted });
+  }
+
+  public async download(req: Request, res: Response, next: NextFunction): Promise<void> {}
+
+  public async preview(req: Request, res: Response, next: NextFunction): Promise<void> {}
 }

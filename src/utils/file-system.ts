@@ -22,9 +22,9 @@ export class File {
     await fsPromise.appendFile(path, content, { flag: "+a" });
   }
 
-  public static async readAsync(path: string): Promise<string> {
+  public static async readAsync(path: string): Promise<Buffer> {
     const data = await fsPromise.readFile(path);
-    return data.toString();
+    return data;
   }
 
   public static async updateAsync(path: string, content: any): Promise<void> {
