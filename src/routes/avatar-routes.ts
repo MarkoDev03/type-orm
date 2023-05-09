@@ -28,4 +28,17 @@ router.route("/remove")
     controller.removeProfilePhoto
   );
 
+router.route("/download")
+  .get(
+    [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
+    controller.download
+  );
+
+router.route("/preview")
+  .delete(
+    [passport.authenticate(Environment.AUTH_SCHEMA, authOptions)],
+    controller.preview
+  );
+
+
 export default router;

@@ -109,7 +109,45 @@ export class AvatarController {
     res.status(StatusCodes.OK).json({ message: Constants.EntityDeleted });
   }
 
-  public async download(req: Request, res: Response, next: NextFunction): Promise<void> {}
+  public async download(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { userId } = req.user as IAuthUser;
 
-  public async preview(req: Request, res: Response, next: NextFunction): Promise<void> {}
+    const entityExist = await _userService.entityExistAsync(userId);
+
+    if (!entityExist) {
+      throw new HttpError(Constants.EndpointNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const rootPath = path.join(path.resolve("files"), userId.toString());
+    const imgPath = path.join(rootPath, Environment.DEFAULT_IMAGE_NAME);
+    const imageExist = await File.existAsync(imgPath);
+
+    if (!imageExist) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    res.status(StatusCodes.OK).sendFile(imgPath);
+  }
+
+  public async preview(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { userId } = req.user as IAuthUser;
+
+    const entityExist = await _userService.entityExistAsync(userId);
+
+    if (!entityExist) {
+      throw new HttpError(Constants.EndpointNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const rootPath = path.join(path.resolve("files"), userId.toString());
+    const imgPath = path.join(rootPath, Environment.DEFAULT_IMAGE_NAME);
+    const imageExist = await File.existAsync(imgPath);
+
+    if (!imageExist) {
+      throw new HttpError(Constants.EntityNotFound, StatusCodes.NOT_FOUND);
+    }
+
+    const imageData = await File.readAsync(imgPath);
+
+    res.status(StatusCodes.OK).json(imageData);
+  }
 }
