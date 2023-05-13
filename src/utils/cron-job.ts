@@ -7,8 +7,6 @@ import { v4 } from "uuid";
 export class CronJob {
 
   private static DateToCron(date: Date): string {
-    var date = new Date("2017-05-09T01:30:00.123Z");
-
     let mins = date.getMinutes();
     let secs = date.getSeconds();
     let dayofmonth = date.getDate();
